@@ -1,474 +1,2047 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>CPS Tester • Akash Rawat</title>
-  <meta name="description" content="CPS (Clicks Per Second) tester. Made by Akash Rawat." />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23ffd54a'/%3E%3Cstop offset='1' stop-color='%23ffb300'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='%230a0a0a'/%3E%3Cpath d='M18 34c0-8 6-14 14-14h14v8H32c-3 0-6 3-6 6v10h-8V34z' fill='url(%23g)'/%3E%3Cpath d='M46 30h-8v-8h8v8z' fill='%23ffd54a' opacity='.9'/%3E%3C/svg%3E" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark light" />
+  <title>CPS TEST / CPS TESTER — CPSTEST.ORG</title>
   <style>
     :root{
-      --bg:#0a0a0a; --bg2:#0f0f0f; --card:#111; --line:#222;
-      --text:#f3f3f3; --muted:#bdbdbd; --y:#ffd54a; --y2:#ffb300;
-      --shadow: 0 18px 60px rgba(0,0,0,.55);
-      --r:16px;
+      --bg: #0b0e14;
+      --bg-2:#0f1420;
+      --card:#121a2a;
+      --card-2:#0f1626;
+      --text:#e8ecf6;
+      --muted:#a9b1c6;
+      --muted-2:#7f8aa7;
+      --border: rgba(255,255,255,.10);
+      --border-2: rgba(255,255,255,.14);
+
+      --accent:#ffd400;
+      --accent-2:#ffb000;
+      --ok:#5be3b2;
+      --warn:#ffd56a;
+
+      --shadow: 0 12px 36px rgba(0,0,0,.35);
+      --shadow-2: 0 10px 28px rgba(0,0,0,.25);
+
+      --radius: 18px;
+      --radius-2: 22px;
+
+      --ring: rgba(255, 212, 0, .26);
+      --ring-2: rgba(255, 212, 0, .12);
+
+      --glass: rgba(10, 14, 22, .55);
+      --glass-2: rgba(10, 14, 22, .35);
+
+      --grad-1: linear-gradient(135deg, rgba(255,212,0,.22), rgba(91,227,178,.14));
+      --grad-2: linear-gradient(135deg, rgba(255,212,0,.25), rgba(255,176,0,.14));
+      --grad-pill: linear-gradient(135deg, rgba(255,212,0,.18), rgba(255,176,0,.08));
+      --grad-hero: linear-gradient(135deg, rgba(255,212,0,.10), rgba(91,227,178,.06));
+      --focus: 0 0 0 3px rgba(255,212,0,.25);
+      --blur: blur(12px);
+      --blur-2: blur(18px);
+
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
+
+    html[data-theme="light"]{
+      --bg:#fafbff;
+      --bg-2:#f3f5ff;
+      --card:#ffffff;
+      --card-2:#fbfcff;
+      --text:#0c1220;
+      --muted:#47506a;
+      --muted-2:#66708c;
+      --border: rgba(12,18,32,.10);
+      --border-2: rgba(12,18,32,.14);
+
+      --shadow: 0 14px 34px rgba(18,24,38,.10);
+      --shadow-2: 0 10px 26px rgba(18,24,38,.09);
+
+      --ring: rgba(255, 193, 0, .28);
+      --ring-2: rgba(255, 193, 0, .14);
+
+      --glass: rgba(255,255,255,.62);
+      --glass-2: rgba(255,255,255,.40);
+
+      --grad-1: linear-gradient(135deg, rgba(255,212,0,.18), rgba(91,227,178,.12));
+      --grad-2: linear-gradient(135deg, rgba(255,212,0,.20), rgba(255,176,0,.10));
+      --grad-pill: linear-gradient(135deg, rgba(255,212,0,.14), rgba(255,176,0,.06));
+      --grad-hero: linear-gradient(135deg, rgba(255,212,0,.08), rgba(91,227,178,.05));
+      --focus: 0 0 0 3px rgba(255,193,0,.25);
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
     body{
-      margin:0; color:var(--text);
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      margin:0;
+      font-family: var(--sans);
       background:
-        radial-gradient(900px 520px at 20% 10%, rgba(255,213,74,.10), transparent 60%),
-        radial-gradient(900px 520px at 80% 15%, rgba(255,179,0,.08), transparent 60%),
-        linear-gradient(180deg, var(--bg), var(--bg2));
+        radial-gradient(1200px 800px at 20% 10%, rgba(255,212,0,.10), transparent 55%),
+        radial-gradient(900px 700px at 80% 70%, rgba(91,227,178,.10), transparent 55%),
+        linear-gradient(180deg, var(--bg), var(--bg-2));
+      color: var(--text);
+      overflow-x:hidden;
     }
-    .wrap{max-width:980px;margin:0 auto;padding:24px 16px 40px}
-    header{
-      display:flex;justify-content:space-between;gap:14px;align-items:flex-start;
-      padding:14px 14px;border:1px solid var(--line);
-      background:rgba(17,17,17,.75); border-radius:var(--r);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+
+    a{ color: inherit; text-decoration: none; }
+    a:hover{ text-decoration: underline; text-underline-offset: 3px; }
+
+    .sr-only{
+      position:absolute !important;
+      width:1px; height:1px;
+      padding:0; margin:-1px;
+      overflow:hidden; clip:rect(0,0,0,0);
+      border:0;
     }
-    .brand{display:flex;gap:12px;align-items:center}
-    .icon{
-      width:44px;height:44px;border-radius:14px;display:grid;place-items:center;
-      border:1px solid #2a2a2a;background:
-        radial-gradient(14px 14px at 30% 30%, rgba(255,255,255,.18), transparent 60%),
-        linear-gradient(135deg, rgba(255,213,74,.22), rgba(255,179,0,.12));
+
+    /* App layout */
+    .app{
+      min-height:100dvh;
+      display:grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: auto 1fr auto auto;
+      grid-template-areas:
+        "topbar"
+        "main"
+        "panel"
+        "sidebar"
+        "footer";
+      gap: 14px;
+      padding: 14px;
     }
-    .icon svg{width:22px;height:22px;fill:var(--y)}
-    h1{margin:0;font-size:16px;letter-spacing:.2px}
-    .sub{margin:4px 0 0;font-size:12px;color:var(--muted);line-height:1.4}
-    .credit{
-      display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:flex-end
+
+    @media (min-width: 980px){
+      .app{
+        grid-template-columns: 270px 1fr 330px;
+        grid-template-rows: auto 1fr auto;
+        grid-template-areas:
+          "topbar topbar topbar"
+          "sidebar main panel"
+          "footer footer footer";
+        align-items: start;
+        padding: 18px;
+        gap: 16px;
+      }
     }
-    .pill{
-      font-size:12px;color:var(--muted);
-      border:1px solid var(--line);border-radius:999px;
-      padding:10px 12px;background:rgba(0,0,0,.25);
-    }
-    .pill b{color:var(--text)}
-    .grid{display:grid;grid-template-columns: 1.2fr .8fr;gap:14px;margin-top:14px}
-    @media (max-width:900px){.grid{grid-template-columns:1fr} header{flex-direction:column}}
-    .card{
-      border:1px solid var(--line);border-radius:var(--r);
-      background:rgba(17,17,17,.65);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+
+    /* Topbar */
+    .topbar{
+      grid-area: topbar;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      backdrop-filter: var(--blur);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-2);
+      padding: 10px 12px;
+      position: relative;
       overflow:hidden;
     }
-    .in{padding:16px}
-    .row{display:flex;justify-content:space-between;gap:10px;align-items:center}
-    .row h2{margin:0;font-size:13px;letter-spacing:.2px}
-    .hint{margin:0;font-size:12px;color:var(--muted)}
-    .area{
-      margin-top:12px;min-height:340px;border-radius:14px;
-      border:1px dashed rgba(255,213,74,.28);
+
+    .topbar::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: var(--grad-hero);
+      opacity:.9;
+      pointer-events:none;
+    }
+
+    .topbar > *{ position: relative; z-index: 1; }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      min-width: 160px;
+    }
+    .brand-mark{
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: var(--grad-2);
+      box-shadow: 0 10px 20px rgba(0,0,0,.18);
+      display:grid;
+      place-items:center;
+      flex: 0 0 auto;
+    }
+    .brand-mark svg{ width: 22px; height: 22px; }
+    .brand-title{
+      display:flex;
+      flex-direction:column;
+      line-height:1.1;
+    }
+    .brand-title strong{
+      font-size: 14px;
+      letter-spacing: .14em;
+    }
+    .brand-title span{
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: .06em;
+    }
+
+    .topbar-actions{
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      gap: 10px;
+      min-width: 190px;
+    }
+
+    .btn{
+      appearance:none;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      border-radius: 14px;
+      padding: 10px 12px;
+      font-weight: 650;
+      letter-spacing: .01em;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap: 9px;
+      transition: transform .12s ease, background .18s ease, border-color .18s ease;
+      user-select:none;
+    }
+    .btn:hover{ background: rgba(255,255,255,.10); border-color: var(--border-2); }
+    .btn:active{ transform: translateY(1px); }
+    .btn:focus-visible{ outline:none; box-shadow: var(--focus); }
+
+    .btn.secondary{
+      background: transparent;
+    }
+
+    .btn.accent{
+      border-color: rgba(255,212,0,.35);
+      background: rgba(255,212,0,.10);
+    }
+    .btn.accent:hover{
+      background: rgba(255,212,0,.16);
+      border-color: rgba(255,212,0,.45);
+    }
+
+    .icon{
+      width: 18px; height: 18px;
+      display:inline-block;
+    }
+
+    /* Sidebar */
+    .sidebar{
+      grid-area: sidebar;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-2);
+      overflow:hidden;
+      position: relative;
+    }
+
+    .side-hero{
+      position: relative;
+      height: 96px;
+      border-bottom: 1px solid var(--border);
+      overflow:hidden;
       background:
-        radial-gradient(650px 280px at 35% 25%, rgba(255,213,74,.12), transparent 65%),
-        rgba(0,0,0,.18);
-      display:flex;flex-direction:column;justify-content:center;align-items:center;
-      text-align:center;padding:18px;user-select:none;cursor:pointer;
-      outline:none;transition: transform .12s ease, border-color .12s ease;
-      position:relative;
+        radial-gradient(700px 220px at 10% 10%, rgba(255,212,0,.20), transparent 60%),
+        radial-gradient(600px 240px at 80% 90%, rgba(91,227,178,.16), transparent 62%),
+        linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
     }
-    .area:hover{border-color: rgba(255,213,74,.45)}
-    .area:active{transform: scale(.995)}
-    .area:focus-visible{
-      border-color: rgba(255,213,74,.70);
-      box-shadow: 0 0 0 4px rgba(255,213,74,.10);
+
+    .decor-wrap{
+      position:absolute; inset:0;
     }
-    .big{margin:0;font-size:30px;letter-spacing:.2px}
-    .small{margin:10px 0 0;font-size:13px;color:var(--muted);max-width:520px;line-height:1.45}
+    .decor-img{
+      position:absolute;
+      inset:-12px;
+      width: calc(100% + 24px);
+      height: calc(100% + 24px);
+      object-fit: cover;
+      filter: blur(10px) saturate(1.1);
+      opacity: .45;
+      transform: scale(1.05);
+    }
+    .decor-overlay{
+      position:absolute; inset:0;
+      background: linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.25));
+      backdrop-filter: var(--blur-2);
+    }
+    html[data-theme="light"] .decor-overlay{
+      background: linear-gradient(180deg, rgba(255,255,255,.58), rgba(255,255,255,.28));
+    }
+
+    /* fallback pattern: gradient + inline SVG dots */
+    .decor-fallback{
+      position:absolute; inset:0;
+      opacity: 0;
+      transition: opacity .18s ease;
+      background:
+        radial-gradient(600px 200px at 20% 30%, rgba(255,212,0,.20), transparent 55%),
+        radial-gradient(500px 220px at 80% 80%, rgba(91,227,178,.16), transparent 58%),
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='none'%3E%3Ccircle cx='22' cy='26' r='2' fill='rgba(255,212,0,0.35)'/%3E%3Ccircle cx='74' cy='52' r='2' fill='rgba(255,212,0,0.22)'/%3E%3Ccircle cx='126' cy='34' r='2' fill='rgba(91,227,178,0.26)'/%3E%3Ccircle cx='36' cy='112' r='2' fill='rgba(91,227,178,0.20)'/%3E%3Ccircle cx='118' cy='116' r='2' fill='rgba(255,176,0,0.24)'/%3E%3C/g%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: auto, auto, auto, 160px 160px;
+    }
+    .decor-wrap.failed .decor-fallback{ opacity: 1; }
+    .decor-wrap.failed .decor-img{ opacity: 0; }
+
+    .side-hero-inner{
+      position: relative;
+      z-index: 1;
+      height:100%;
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      padding: 12px;
+      gap: 12px;
+    }
+
+    .side-user{
+      display:flex; align-items:center; gap: 10px;
+      padding: 10px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: var(--glass);
+      backdrop-filter: var(--blur);
+    }
+    .avatar{
+      width: 36px; height: 36px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: var(--grad-2);
+      display:grid; place-items:center;
+      flex: 0 0 auto;
+      box-shadow: 0 10px 20px rgba(0,0,0,.18);
+    }
+    .avatar svg{ width: 18px; height: 18px; }
+    .side-user strong{ font-size: 13px; }
+    .side-user span{
+      font-size: 12px;
+      color: var(--muted);
+      display:block;
+      margin-top: 2px;
+    }
+
+    .nav{
+      padding: 10px;
+      display:grid;
+      gap: 6px;
+    }
+    .nav a{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      padding: 10px 10px;
+      border-radius: 14px;
+      border: 1px solid transparent;
+      color: var(--text);
+      user-select:none;
+      transition: background .18s ease, border-color .18s ease, transform .12s ease;
+    }
+    .nav a .nav-ic{
+      width: 18px; height: 18px;
+      opacity:.9;
+      flex: 0 0 auto;
+    }
+    .nav a span{
+      font-weight: 650;
+      font-size: 13px;
+      color: var(--text);
+    }
+    .nav a small{
+      margin-left:auto;
+      color: var(--muted-2);
+      font-size: 12px;
+      font-family: var(--mono);
+    }
+    .nav a:hover{
+      background: rgba(255,255,255,.06);
+      border-color: var(--border);
+    }
+    .nav a:active{ transform: translateY(1px); }
+    .nav a.active{
+      background: rgba(255,212,0,.10);
+      border-color: rgba(255,212,0,.30);
+    }
+    .nav a.locked{
+      opacity:.7;
+    }
+
+    /* Mobile sidebar: make it a bottom bar */
+    @media (max-width: 979px){
+      .sidebar{
+        position: sticky;
+        bottom: 12px;
+        z-index: 20;
+      }
+      .side-hero{ display:none; }
+      .nav{
+        grid-auto-flow: column;
+        grid-auto-columns: 1fr;
+        overflow-x:auto;
+        gap: 8px;
+        padding: 10px;
+      }
+      .nav a{
+        flex-direction: column;
+        justify-content:center;
+        gap: 6px;
+        padding: 10px 8px;
+        min-width: 110px;
+        text-align:center;
+      }
+      .nav a small{ display:none; }
+      .nav a span{ font-size: 12px; }
+    }
+
+    /* Main */
+    .main{
+      grid-area: main;
+      display:flex;
+      flex-direction:column;
+      gap: 14px;
+    }
+
+    .hero{
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-2);
+      background: rgba(255,255,255,.03);
+      overflow:hidden;
+      position: relative;
+    }
+
+    .hero-strip{
+      position: absolute;
+      inset: 0;
+      pointer-events:none;
+    }
+    .hero-strip .decor-img{
+      filter: blur(14px) saturate(1.05);
+      opacity: .30;
+    }
+    .hero-strip .decor-overlay{
+      background: linear-gradient(90deg, rgba(0,0,0,.38), rgba(0,0,0,.18));
+    }
+    html[data-theme="light"] .hero-strip .decor-overlay{
+      background: linear-gradient(90deg, rgba(255,255,255,.62), rgba(255,255,255,.34));
+    }
+
+    .hero-inner{
+      position: relative;
+      z-index: 1;
+      padding: 14px;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    .hero h1{
+      margin:0;
+      font-size: 18px;
+      letter-spacing: .04em;
+    }
+    .hero h1 .muted{
+      color: var(--muted);
+      font-weight: 650;
+      letter-spacing: .02em;
+    }
+    .hero p{
+      margin:0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+      max-width: 62ch;
+    }
+
+    .stats{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    @media (min-width: 680px){
+      .stats{ grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .pill{
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--grad-pill);
+      box-shadow: 0 10px 22px rgba(0,0,0,.14);
+      padding: 10px 12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      overflow:hidden;
+      position: relative;
+    }
+    .pill::after{
+      content:"";
+      position:absolute;
+      inset:-40px -60px auto auto;
+      width: 160px;
+      height: 160px;
+      background: radial-gradient(circle at 30% 30%, rgba(255,212,0,.22), transparent 55%);
+      transform: rotate(14deg);
+      opacity: .55;
+      pointer-events:none;
+    }
+    .pill .label{
+      display:flex;
+      flex-direction:column;
+      gap: 2px;
+      z-index: 1;
+    }
+    .pill .label span{
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+    .pill .label strong{
+      font-size: 18px;
+      letter-spacing: .02em;
+      font-family: var(--mono);
+    }
+
+    .pill .mini{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      z-index: 1;
+    }
     .badge{
-      position:absolute;top:12px;left:12px;
-      display:flex;align-items:center;gap:10px;
-      padding:8px 10px;border-radius:999px;
-      border:1px solid var(--line);background:rgba(0,0,0,.25);
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text);
+      white-space: nowrap;
     }
-    .dot{width:10px;height:10px;border-radius:999px;background:#333}
-    .dot.ready{background:var(--y)}
-    .dot.live{background:#35d07f}
-    .dot.done{background:#ffb86b}
-    .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
-    @media (max-width:420px){.stats{grid-template-columns:1fr}.big{font-size:26px}}
-    .stat{
-      border:1px solid var(--line);border-radius:14px;background:rgba(0,0,0,.20);
-      padding:12px;min-height:72px;
-    }
-    .label{margin:0 0 6px;font-size:12px;color:var(--muted)}
-    .val{margin:0;font-size:20px;font-weight:800;letter-spacing:.2px}
-    .val small{font-size:11px;color:var(--muted);font-weight:700;margin-left:6px}
-    .controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-top:12px}
-    .left{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-    button{
-      border:1px solid var(--line);background:rgba(0,0,0,.25);color:var(--text);
-      padding:10px 12px;border-radius:14px;cursor:pointer;font-weight:800;
-      transition: background .12s ease, transform .08s ease, border-color .12s ease;
-    }
-    button:hover{background:rgba(255,255,255,.06)}
-    button:active{transform: translateY(1px)}
-    button.primary{
-      border-color: rgba(255,213,74,.55);
-      background: linear-gradient(135deg, rgba(255,213,74,.18), rgba(255,179,0,.10));
-    }
-    button.danger{border-color: rgba(255,92,122,.45)}
-    button:disabled{opacity:.55;cursor:not-allowed}
-    .select{
-      display:flex;gap:10px;align-items:center;
-      border:1px solid var(--line);border-radius:14px;
-      background:rgba(0,0,0,.22);padding:10px 12px;
-      color:var(--muted);font-size:12px;font-weight:800;
-    }
-    select{
-      appearance:none;border:none;outline:none;background:transparent;
-      color:var(--text);font-weight:900;cursor:pointer;
-    }
-    .list{display:flex;flex-direction:column;gap:10px;margin-top:12px;max-height:420px;overflow:auto;padding-right:6px}
-    .item{
-      border:1px solid var(--line);border-radius:14px;background:rgba(0,0,0,.20);
-      padding:12px;display:flex;justify-content:space-between;gap:10px;align-items:center;
-    }
-    .meta{display:flex;flex-direction:column;gap:4px}
-    .meta b{font-size:13px}
-    .meta span{font-size:12px;color:var(--muted)}
-    .score{font-weight:900;font-size:16px;white-space:nowrap}
-    .toast{
-      position:fixed;left:50%;bottom:16px;transform:translateX(-50%);
-      background:rgba(0,0,0,.65);border:1px solid rgba(255,255,255,.14);
-      color:var(--text);padding:10px 12px;border-radius:14px;
-      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+
+    /* Click zone */
+    .click-card{
+      border: 1px solid var(--border);
+      border-radius: var(--radius-2);
       box-shadow: var(--shadow);
-      opacity:0;pointer-events:none;transition:opacity .18s ease, transform .18s ease;
-      font-size:12px;font-weight:800;
+      background: rgba(255,255,255,.03);
+      overflow:hidden;
+      position: relative;
+      min-height: 320px;
     }
-    .toast.show{opacity:1;transform:translateX(-50%) translateY(-6px)}
-    .kbd{
-      display:inline-grid;place-items:center;min-width:26px;height:22px;padding:0 8px;
-      border-radius:8px;border:1px solid rgba(255,255,255,.14);
-      background:rgba(0,0,0,.25);color:var(--text);font-size:11px;font-weight:900;
+
+    .click-card-inner{
+      position: relative;
+      padding: 14px;
+      height: 100%;
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+    }
+
+    .click-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .hint{
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .click-zone{
+      position: relative;
+      flex: 1;
+      border-radius: 20px;
+      border: 1px dashed rgba(255,212,0,.32);
+      background:
+        radial-gradient(700px 420px at 30% 20%, rgba(255,212,0,.14), transparent 60%),
+        radial-gradient(540px 360px at 80% 80%, rgba(91,227,178,.12), transparent 62%),
+        rgba(255,255,255,.02);
+      overflow:hidden;
+      display:grid;
+      place-items:center;
+      user-select:none;
+      -webkit-user-select:none;
+      touch-action: manipulation;
+      cursor: pointer;
+      outline: none;
+    }
+    .click-zone:focus-visible{ box-shadow: var(--focus); }
+
+    .rings{
+      position:absolute;
+      inset: 0;
+      pointer-events:none;
+      opacity: .9;
+    }
+    .ring{
+      position:absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%,-50%);
+      border-radius: 999px;
+      border: 1px solid var(--ring);
+      box-shadow: 0 0 0 1px rgba(0,0,0,.03) inset;
+    }
+    .ring.r1{ width: 78%; height: 78%; border-color: var(--ring-2); }
+    .ring.r2{ width: 58%; height: 58%; border-color: var(--ring); }
+    .ring.r3{ width: 38%; height: 38%; border-color: var(--ring-2); }
+    .ring.r4{ width: 22%; height: 22%; border-color: rgba(255,212,0,.32); }
+
+    .target{
+      width: 120px; height: 120px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,212,0,.40);
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,212,0,.24), rgba(255,255,255,.04) 55%, rgba(0,0,0,.00) 100%);
+      display:grid;
+      place-items:center;
+      box-shadow: 0 18px 42px rgba(0,0,0,.24);
+      position: relative;
+      transition: transform .12s ease;
+    }
+
+    .target::before{
+      content:"";
+      position:absolute;
+      width: 78px; height: 78px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,212,0,.35);
+      background: rgba(255,255,255,.03);
+      backdrop-filter: var(--blur);
+    }
+    .target::after{
+      content:"";
+      position:absolute;
+      width: 16px; height: 16px;
+      border-radius: 999px;
+      background: rgba(255,212,0,.85);
+      box-shadow: 0 0 0 8px rgba(255,212,0,.14);
+    }
+
+    .zone-text{
+      position:absolute;
+      bottom: 12px;
+      left: 12px;
+      right: 12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      pointer-events:none;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .zone-text kbd{
+      pointer-events:none;
+      font-family: var(--mono);
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      white-space: nowrap;
+    }
+
+    .pulse{
+      position:absolute;
+      inset: 0;
+      pointer-events:none;
+    }
+    .pulse::before{
+      content:"";
+      position:absolute;
+      left: 50%;
+      top: 50%;
+      width: 12px;
+      height: 12px;
+      transform: translate(-50%,-50%);
+      border-radius: 999px;
+      background: rgba(255,212,0,.50);
+      opacity: 0;
+    }
+
+    .click-zone.tapped .target{ transform: scale(0.985); }
+    .click-zone.tapped .pulse::before{
+      animation: pop .22s ease;
+    }
+    @keyframes pop{
+      0%{ opacity: .0; transform: translate(-50%,-50%) scale(1); }
+      30%{ opacity: .55; }
+      100%{ opacity: 0; transform: translate(-50%,-50%) scale(16); }
+    }
+
+    /* Right panel */
+    .panel{
+      grid-area: panel;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-2);
+      background: rgba(255,255,255,.03);
+      overflow:hidden;
+      position: relative;
+    }
+
+    .panel-head{
+      padding: 12px;
+      border-bottom: 1px solid var(--border);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+    }
+    .panel-head strong{
+      font-size: 13px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .panel-body{
+      padding: 12px;
+      display:flex;
+      flex-direction:column;
+      gap: 14px;
+    }
+
+    .section{
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: rgba(255,255,255,.03);
+      overflow:hidden;
+    }
+    .section .section-title{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding: 10px 10px;
+      border-bottom: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .section .section-content{
+      padding: 10px;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    .time-grid{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    .chip{
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.05);
+      color: var(--text);
+      border-radius: 14px;
+      padding: 10px 10px;
+      font-family: var(--mono);
+      font-size: 12px;
+      cursor:pointer;
+      transition: transform .12s ease, background .18s ease, border-color .18s ease;
+      user-select:none;
+      text-align:center;
+    }
+    .chip:hover{ background: rgba(255,255,255,.09); border-color: var(--border-2); }
+    .chip:active{ transform: translateY(1px); }
+    .chip.active{
+      background: rgba(255,212,0,.12);
+      border-color: rgba(255,212,0,.36);
+    }
+    .chip:focus-visible{ outline:none; box-shadow: var(--focus); }
+
+    .row{
+      display:flex;
+      gap: 10px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap: wrap;
+    }
+
+    .toggle{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      user-select:none;
+    }
+    .switch{
+      width: 46px;
+      height: 28px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      position: relative;
+      cursor:pointer;
+      transition: background .18s ease, border-color .18s ease;
+      flex: 0 0 auto;
+    }
+    .switch::after{
+      content:"";
+      position:absolute;
+      width: 22px; height: 22px;
+      top: 50%;
+      left: 3px;
+      transform: translateY(-50%);
+      border-radius: 999px;
+      background: rgba(255,255,255,.85);
+      box-shadow: 0 8px 16px rgba(0,0,0,.20);
+      transition: left .18s ease, background .18s ease;
+    }
+    .switch.on{
+      background: rgba(255,212,0,.12);
+      border-color: rgba(255,212,0,.34);
+    }
+    .switch.on::after{
+      left: 21px;
+      background: rgba(255,212,0,.95);
+    }
+
+    .help{
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    /* Footer */
+    .footer{
+      grid-area: footer;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-2);
+      background: rgba(255,255,255,.03);
+      padding: 12px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .footer strong{
+      font-size: 13px;
+    }
+    .footer .links{
+      display:flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items:center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .footer .credits{
+      color: var(--muted-2);
+      font-size: 12px;
+      margin-top: 6px;
+    }
+
+    /* Modal */
+    .modal{
+      position: fixed;
+      inset: 0;
+      display:none;
+      place-items:center;
+      padding: 16px;
+      z-index: 100;
+      background: rgba(0,0,0,.55);
+      backdrop-filter: blur(8px);
+    }
+    html[data-theme="light"] .modal{
+      background: rgba(12,18,32,.42);
+    }
+    .modal.show{ display:grid; }
+    .dialog{
+      width: min(560px, 100%);
+      border-radius: 22px;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+      box-shadow: 0 24px 64px rgba(0,0,0,.42);
+      overflow:hidden;
+      position: relative;
+    }
+    .dialog::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: var(--grad-1);
+      opacity: .9;
+      pointer-events:none;
+    }
+    .dialog > *{ position:relative; z-index:1; }
+
+    .dialog-head{
+      padding: 14px 14px 10px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+    }
+    .dialog-head h2{
+      margin:0;
+      font-size: 16px;
+      letter-spacing:.04em;
+    }
+    .close{
+      appearance:none;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.08);
+      color: var(--text);
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      cursor:pointer;
+      display:grid;
+      place-items:center;
+      transition: background .18s ease, transform .12s ease;
+    }
+    .close:hover{ background: rgba(255,255,255,.12); }
+    .close:active{ transform: translateY(1px); }
+    .close:focus-visible{ outline:none; box-shadow: var(--focus); }
+
+    .dialog-body{
+      padding: 0 14px 14px;
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+    }
+
+    .result-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .rank{
+      display:flex;
+      flex-direction:column;
+      gap: 4px;
+    }
+    .rank strong{
+      font-size: 18px;
+      letter-spacing:.02em;
+    }
+    .stars{
+      font-family: var(--mono);
+      letter-spacing:.10em;
+      color: var(--accent);
+      font-size: 14px;
+    }
+
+    .result-grid{
+      display:grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .rbox{
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: rgba(255,255,255,.05);
+      padding: 10px;
+    }
+    .rbox span{
+      display:block;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing:.06em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .rbox strong{
+      font-family: var(--mono);
+      font-size: 16px;
+    }
+
+    .motivation{
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: rgba(255,255,255,.04);
+      padding: 10px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-size: 13px;
+    }
+
+    .dialog-actions{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content:flex-end;
+      padding-top: 2px;
+    }
+
+    /* Reduce motion */
+    @media (prefers-reduced-motion: reduce){
+      *{
+        scroll-behavior: auto !important;
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+      }
     }
   </style>
 </head>
+
 <body>
-  <div class="wrap">
-    <header>
-      <div class="brand">
-        <div class="icon" aria-hidden="true" title="CPS">
-          <!-- simple mouse icon -->
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M12 2a7 7 0 0 0-7 7v6a7 7 0 0 0 14 0V9a7 7 0 0 0-7-7zm1 2.1A5 5 0 0 1 17 9v1h-4V4.1zM7 9a5 5 0 0 1 4-4.9V12H7V9zm0 5h10v1a5 5 0 0 1-10 0v-1z"/>
+  <div class="app" id="app">
+    <!-- Top bar -->
+    <header class="topbar">
+      <div class="brand" aria-label="Brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M12 2.5c4.75 0 8.7 3.42 9.5 8.01.07.43-.27.82-.71.82h-2.3a.73.73 0 0 1-.7-.56A6.55 6.55 0 0 0 12 5.93a6.55 6.55 0 0 0-5.79 4.84.73.73 0 0 1-.7.56H3.2c-.44 0-.78-.4-.71-.82C3.3 5.92 7.25 2.5 12 2.5Z" fill="currentColor" opacity=".92"/>
+            <path d="M12 8.25c2.9 0 5.25 2.35 5.25 5.25S14.9 18.75 12 18.75 6.75 16.4 6.75 13.5 9.1 8.25 12 8.25Z" fill="currentColor" opacity=".92"/>
+            <path d="M12 10.1a3.4 3.4 0 1 1 0 6.8 3.4 3.4 0 0 1 0-6.8Z" fill="currentColor"/>
           </svg>
         </div>
-        <div>
-          <h1>CPS Tester</h1>
-          <p class="sub">Click inside the box to start. Runs save locally in your browser.</p>
+        <div class="brand-title">
+          <strong>CPSTEST.ORG</strong>
+          <span>CPS Dashboard</span>
         </div>
       </div>
-      <div class="credit">
-        <div class="pill">Made by <b>Akash Rawat</b></div>
-        <div class="pill"><span class="kbd">Space</span> Start/Stop <span class="kbd">R</span> Reset</div>
+
+      <div class="topbar-actions">
+        <button class="btn secondary" id="themeBtn" type="button" aria-label="Toggle theme">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 18.5a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13Z" stroke="currentColor" stroke-width="1.8" opacity=".9"/>
+            <path d="M12 2.5v2.2M12 19.3v2.2M21.5 12h-2.2M4.7 12H2.5M18.6 5.4l-1.55 1.55M6.95 17.05 5.4 18.6M18.6 18.6l-1.55-1.55M6.95 6.95 5.4 5.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+          <span id="themeLabel">Theme</span>
+        </button>
+
+        <button class="btn accent" type="button" aria-label="Login (UI only)">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Z" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M4.5 21a7.5 7.5 0 0 1 15 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+          Login
+        </button>
       </div>
     </header>
 
-    <div class="grid">
-      <section class="card">
-        <div class="in">
-          <div class="row">
-            <h2>Test</h2>
-            <p class="hint" id="status">Ready</p>
-          </div>
+    <!-- Sidebar -->
+    <aside class="sidebar" aria-label="Sidebar navigation">
+      <div class="side-hero">
+        <div class="decor-wrap" id="decorSidebar">
+          <img
+            class="decor-img"
+            id="sidebarImg"
+            alt=""
+            loading="lazy"
+            referrerpolicy="no-referrer"
+            crossorigin="anonymous"
+          />
+          <div class="decor-overlay" aria-hidden="true"></div>
+          <div class="decor-fallback" aria-hidden="true"></div>
+        </div>
 
-          <div class="area" id="area" tabindex="0" role="button" aria-label="CPS click area">
-            <div class="badge" aria-live="polite">
-              <div class="dot ready" id="dot"></div>
-              <span id="phase" style="font-size:12px;color:var(--muted);font-weight:800">Ready</span>
+        <div class="side-hero-inner">
+          <div class="side-user">
+            <div class="avatar" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 12.2a4.2 4.2 0 1 0-4.2-4.2 4.2 4.2 0 0 0 4.2 4.2Z" fill="currentColor" opacity=".92"/>
+                <path d="M4.7 21.2a7.3 7.3 0 0 1 14.6 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" opacity=".92"/>
+              </svg>
             </div>
-            <p class="big" id="title">Click to Start</p>
-            <p class="small" id="subtitle">First click starts the timer. Keep clicking until time runs out.</p>
+            <div>
+              <strong>Akbyte</strong>
+              <span>Home • CPS Test</span>
+            </div>
           </div>
+        </div>
+      </div>
 
-          <div class="stats">
-            <div class="stat"><p class="label">Clicks</p><p class="val"><span id="clicks">0</span><small>total</small></p></div>
-            <div class="stat"><p class="label">Time</p><p class="val"><span id="time">0.00</span><small>sec</small></p></div>
-            <div class="stat"><p class="label">CPS</p><p class="val"><span id="cps">0.00</span><small>avg</small></p></div>
-            <div class="stat"><p class="label">Best</p><p class="val"><span id="best">—</span><small>saved</small></p></div>
-          </div>
+      <nav class="nav" aria-label="Navigation">
+        <a class="active" href="#home" data-page="home">
+          <svg class="nav-ic" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4 10.5 12 4l8 6.5V20a1.8 1.8 0 0 1-1.8 1.8H5.8A1.8 1.8 0 0 1 4 20v-9.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+            <path d="M9.4 21.8v-6.2h5.2v6.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+          <span>Home</span>
+          <small>Active</small>
+        </a>
 
-          <div class="controls">
-            <div class="left">
-              <button class="primary" id="start" type="button">Start</button>
-              <button id="stop" type="button" disabled>Stop</button>
-              <button class="danger" id="reset" type="button">Reset</button>
+        <a class="locked" href="#click-speed" data-page="ui-only">
+          <svg class="nav-ic" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 21.2a9.2 9.2 0 1 0-9.2-9.2 9.2 9.2 0 0 0 9.2 9.2Z" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M12 7.2v5l3.4 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+          <span>Click Speed Test</span>
+          <small>UI</small>
+        </a>
 
-              <div class="select" title="Test duration">
-                <span>Duration</span>
-                <select id="dur">
-                  <option value="1">1s</option>
-                  <option value="2">2s</option>
-                  <option value="5" selected>5s</option>
-                  <option value="10">10s</option>
-                  <option value="15">15s</option>
-                  <option value="30">30s</option>
-                  <option value="60">60s</option>
-                </select>
+        <a class="locked" href="#jitter" data-page="ui-only">
+          <svg class="nav-ic" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M7 8.5c2.3-2.3 7.7-2.3 10 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M6 12c3.4-3.4 8.6-3.4 12 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" opacity=".9"/>
+            <path d="M9 15.5c1.8-1.8 4.2-1.8 6 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" opacity=".85"/>
+            <path d="M12 20.5a1.4 1.4 0 1 0 0-2.8 1.4 1.4 0 0 0 0 2.8Z" fill="currentColor"/>
+          </svg>
+          <span>Jitter Click Test</span>
+          <small>UI</small>
+        </a>
+
+        <a class="locked" href="#kohi" data-page="ui-only">
+          <svg class="nav-ic" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M8 21h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M12 3v10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M7 8.5c.8-2.6 2.8-4.2 5-4.2s4.2 1.6 5 4.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+          <span>Kohi Click Test</span>
+          <small>UI</small>
+        </a>
+
+        <a class="locked" href="#typing" data-page="ui-only">
+          <svg class="nav-ic" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4.2 7.2h15.6A1.8 1.8 0 0 1 21.6 9v9a1.8 1.8 0 0 1-1.8 1.8H4.2A1.8 1.8 0 0 1 2.4 18V9a1.8 1.8 0 0 1 1.8-1.8Z" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M6 11h.01M9 11h.01M12 11h.01M15 11h.01M18 11h.01" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+            <path d="M6.2 15.2h11.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" opacity=".9"/>
+          </svg>
+          <span>Typing Test</span>
+          <small>UI</small>
+        </a>
+
+        <a class="locked" href="#spacebar" data-page="ui-only">
+          <svg class="nav-ic" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5.2 15.4h13.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M6.4 18.4h11.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" opacity=".9"/>
+            <path d="M7.2 5.6h9.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" opacity=".75"/>
+            <path d="M8.3 9.2h7.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" opacity=".85"/>
+          </svg>
+          <span>Spacebar Counter</span>
+          <small>UI</small>
+        </a>
+
+        <a class="locked" href="#spacebar-clicker" data-page="ui-only">
+          <svg class="nav-ic" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M6 13.2c1.6-1.6 4.2-1.6 5.8 0l1.4 1.4c1.6 1.6 4.2 1.6 5.8 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M6 9.4c1.6-1.6 4.2-1.6 5.8 0l1.4 1.4c1.6 1.6 4.2 1.6 5.8 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" opacity=".9"/>
+          </svg>
+          <span>Spacebar Clicker</span>
+          <small>UI</small>
+        </a>
+
+        <a class="locked" href="#reaction" data-page="ui-only">
+          <svg class="nav-ic" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 21.2a9.2 9.2 0 1 0-9.2-9.2 9.2 9.2 0 0 0 9.2 9.2Z" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M12 6.8v5.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M12 12.1 16.2 14.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" opacity=".9"/>
+          </svg>
+          <span>Reaction Time Test</span>
+          <small>UI</small>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main -->
+    <main class="main" id="home" tabindex="-1">
+      <section class="hero" aria-label="CPS header">
+        <div class="decor-wrap hero-strip" id="decorHero">
+          <img
+            class="decor-img"
+            id="heroImg"
+            alt=""
+            loading="lazy"
+            referrerpolicy="no-referrer"
+            crossorigin="anonymous"
+          />
+          <div class="decor-overlay" aria-hidden="true"></div>
+          <div class="decor-fallback" aria-hidden="true"></div>
+        </div>
+
+        <div class="hero-inner">
+          <h1>CPS TEST <span class="muted">/ CPS TESTER</span></h1>
+          <p>
+            Click inside the target zone to start. Results are calculated using high-precision timing.
+            Keyboard: focus the zone and press <strong>Space</strong> or <strong>Enter</strong>.
+          </p>
+
+          <div class="stats" aria-label="Live stats">
+            <div class="pill">
+              <div class="label">
+                <span>Timer</span>
+                <strong id="statTimer">5.000</strong>
+              </div>
+              <div class="mini">
+                <span class="badge" id="statMode">Auto</span>
               </div>
             </div>
 
-            <button id="clear" type="button">Clear History</button>
+            <div class="pill">
+              <div class="label">
+                <span>Click/s</span>
+                <strong id="statCps">0.00</strong>
+              </div>
+              <div class="mini">
+                <span class="badge" id="statBest">Best: 0.00</span>
+              </div>
+            </div>
+
+            <div class="pill">
+              <div class="label">
+                <span>Score</span>
+                <strong id="statClicks">0</strong>
+              </div>
+              <div class="mini">
+                <span class="badge" id="statDuration">5s</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      <aside class="card">
-        <div class="in">
-          <div class="row">
-            <h2>Recent Runs</h2>
-            <p class="hint">Last 12</p>
+      <section class="click-card" aria-label="Click zone">
+        <div class="click-card-inner">
+          <div class="click-top">
+            <div class="hint">
+              <strong>Tip:</strong> consistent rhythm usually beats bursts. Keep your wrist relaxed.
+            </div>
+            <div class="row" style="gap:10px;">
+              <button class="btn secondary" id="resetBtn" type="button" title="Reset stats">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M20 12a8 8 0 1 1-2.3-5.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                  <path d="M20 4v6h-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Reset
+              </button>
+            </div>
           </div>
-          <div class="list" id="list"></div>
+
+          <div
+            class="click-zone"
+            id="clickZone"
+            role="button"
+            tabindex="0"
+            aria-label="Click zone. Click to start."
+          >
+            <div class="rings" aria-hidden="true">
+              <div class="ring r1"></div>
+              <div class="ring r2"></div>
+              <div class="ring r3"></div>
+              <div class="ring r4"></div>
+            </div>
+            <div class="pulse" aria-hidden="true"></div>
+            <div class="target" aria-hidden="true"></div>
+
+            <div class="zone-text" aria-hidden="true">
+              <span id="zoneStatus">Click to start</span>
+              <kbd>Space / Enter</kbd>
+            </div>
+          </div>
         </div>
-      </aside>
+      </section>
+    </main>
+
+    <!-- Right panel -->
+    <aside class="panel" aria-label="Controls panel">
+      <div class="panel-head">
+        <strong>Controls</strong>
+        <span class="badge" id="statusBadge">Ready</span>
+      </div>
+
+      <div class="panel-body">
+        <div class="section">
+          <div class="section-title">
+            <span>Select time</span>
+            <span class="badge" id="selectedTimeBadge">5s</span>
+          </div>
+          <div class="section-content">
+            <div class="time-grid" id="timeGrid" role="group" aria-label="Select duration">
+              <!-- buttons injected by JS -->
+            </div>
+            <div class="help">
+              Default is <strong>5s</strong>. Changing the duration resets the current run.
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">
+            <span>Manual Click Test mode</span>
+            <span class="badge" id="manualBadge">Off</span>
+          </div>
+          <div class="section-content">
+            <div class="row">
+              <button class="btn accent" id="manualBtn" type="button">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M8 7.5V6.2A3.8 3.8 0 0 1 11.8 2.4h.4A3.8 3.8 0 0 1 16 6.2v1.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                  <path d="M6.2 21.6h11.6A2.2 2.2 0 0 0 20 19.4V10.2A2.2 2.2 0 0 0 17.8 8H6.2A2.2 2.2 0 0 0 4 10.2v9.2a2.2 2.2 0 0 0 2.2 2.2Z" stroke="currentColor" stroke-width="1.8"/>
+                  <path d="M12 12v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" opacity=".9"/>
+                </svg>
+                Start
+              </button>
+
+              <button class="btn secondary" id="stopBtn" type="button" disabled>
+                <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M7.2 7.2h9.6v9.6H7.2z" stroke="currentColor" stroke-width="1.8"/>
+                </svg>
+                Stop
+              </button>
+            </div>
+
+            <div class="help">
+              Manual mode starts timing immediately (no “first click” delay). Stop ends early and shows results.
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">
+            <span>Sound</span>
+            <span class="badge" id="soundBadge">Muted</span>
+          </div>
+          <div class="section-content">
+            <div class="row">
+              <div class="toggle" aria-label="Mute toggle">
+                <div class="switch" id="muteSwitch" role="switch" aria-checked="true" tabindex="0"></div>
+                <div>
+                  <strong style="font-size:13px;">Mute click sound</strong>
+                  <div class="help" style="margin:2px 0 0;">Default: muted on</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="help">
+              Sound is generated locally via WebAudio. No external assets.
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">
+            <span>Image credits</span>
+            <span class="badge">Auto</span>
+          </div>
+          <div class="section-content">
+            <div class="help">
+              Photos: <strong>Unsplash / Picsum (auto)</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Footer -->
+    <footer class="footer" aria-label="Footer">
+      <div>
+        <strong>Made by Akash Rawat (Akbyte)</strong>
+        <div class="credits">Photos: Unsplash / Picsum (auto)</div>
+      </div>
+
+      <div class="links" aria-label="Links">
+        <a href="https://akbyte.me" target="_blank" rel="noopener noreferrer">akbyte.me</a>
+        <span aria-hidden="true">•</span>
+        <a href="https://pack2zip.dpdns.org/mrpack-to-zip.html" target="_blank" rel="noopener noreferrer">Pack2Zip</a>
+        <span aria-hidden="true">•</span>
+        <a href="https://akbyte-was-taken.github.io/CPS-Tester/" target="_blank" rel="noopener noreferrer">CPS Tester</a>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Result modal -->
+  <div class="modal" id="resultModal" role="dialog" aria-modal="true" aria-labelledby="resultTitle">
+    <div class="dialog">
+      <div class="dialog-head">
+        <div>
+          <h2 id="resultTitle">Result</h2>
+          <div class="help" id="resultSub">Summary</div>
+        </div>
+        <button class="close" id="closeModal" type="button" aria-label="Close result modal">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M7 7l10 10M17 7 7 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="dialog-body">
+        <div class="result-top">
+          <div class="rank">
+            <strong id="rankName">Human</strong>
+            <div class="stars" id="rankStars">★★★☆☆</div>
+          </div>
+          <div class="badge" id="rankTag">Ranked</div>
+        </div>
+
+        <div class="result-grid" aria-label="Result details">
+          <div class="rbox">
+            <span>CPS</span>
+            <strong id="resCps">0.00</strong>
+          </div>
+          <div class="rbox">
+            <span>Clicks</span>
+            <strong id="resClicks">0</strong>
+          </div>
+          <div class="rbox">
+            <span>Time</span>
+            <strong id="resTime">0.000s</strong>
+          </div>
+          <div class="rbox">
+            <span>Mode</span>
+            <strong id="resMode">Auto</strong>
+          </div>
+        </div>
+
+        <div class="motivation" id="motivationLine">
+          Nice run. Try beating your own best.
+        </div>
+
+        <div class="dialog-actions">
+          <button class="btn secondary" id="copyBtn" type="button">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M9 9h10v12H9z" stroke="currentColor" stroke-width="1.8"/>
+              <path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+            Copy Result
+          </button>
+          <button class="btn accent" id="tryAgainBtn" type="button">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M20 12a8 8 0 1 1-2.3-5.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M20 4v6h-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Try Again
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
-
   <script>
-    "use strict";
+    (() => {
+      "use strict";
 
-    const $ = (id) => document.getElementById(id);
+      // ----------------------------
+      // Theme (persisted)
+      // ----------------------------
+      const THEME_KEY = "akbyte_theme_v1";
+      const themeBtn = document.getElementById("themeBtn");
+      const themeLabel = document.getElementById("themeLabel");
 
-    const area = $("area");
-    const title = $("title");
-    const subtitle = $("subtitle");
-    const status = $("status");
-    const phase = $("phase");
-    const dot = $("dot");
-
-    const clicksEl = $("clicks");
-    const timeEl = $("time");
-    const cpsEl = $("cps");
-    const bestEl = $("best");
-
-    const startBtn = $("start");
-    const stopBtn = $("stop");
-    const resetBtn = $("reset");
-    const clearBtn = $("clear");
-    const durSel = $("dur");
-
-    const list = $("list");
-    const toast = $("toast");
-
-    const KEY = "cps_history_akash_v1";
-
-    let clicks = 0;
-    let running = false;
-    let done = false;
-    let startAt = 0;
-    let raf = 0;
-    let endTimer = 0;
-
-    const now = () => (performance?.now ? performance.now() : Date.now());
-
-    const fmt = (n) => (Math.round(n * 100) / 100).toFixed(2);
-
-    function toastMsg(msg){
-      toast.textContent = msg;
-      toast.classList.add("show");
-      clearTimeout(toastMsg.t);
-      toastMsg.t = setTimeout(() => toast.classList.remove("show"), 1200);
-    }
-
-    function setUI(p){
-      dot.className = "dot " + p;
-      const label = p === "ready" ? "Ready" : p === "live" ? "Live" : "Done";
-      phase.textContent = label;
-      status.textContent = label;
-
-      if(p === "ready"){
-        title.textContent = "Click to Start";
-        subtitle.textContent = "First click starts the timer. Keep clicking until time runs out.";
-      }else if(p === "live"){
-        title.textContent = "Click Fast";
-        subtitle.textContent = "Stay inside the box. Space can stop early.";
-      }else{
-        title.textContent = "Finished";
-        subtitle.textContent = "Reset to try again, or change duration and start.";
+      function getPreferredTheme(){
+        const saved = localStorage.getItem(THEME_KEY);
+        if (saved === "light" || saved === "dark") return saved;
+        return window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
       }
 
-      startBtn.disabled = running;
-      stopBtn.disabled = !running;
-      durSel.disabled = running;
-    }
-
-    function getHistory(){
-      try{
-        const raw = localStorage.getItem(KEY);
-        const data = raw ? JSON.parse(raw) : [];
-        return Array.isArray(data) ? data : [];
-      }catch{
-        return [];
-      }
-    }
-
-    function saveHistory(rows){
-      try{ localStorage.setItem(KEY, JSON.stringify(rows)); }catch{}
-    }
-
-    function updateBest(){
-      const h = getHistory();
-      if(!h.length){ bestEl.textContent = "—"; return; }
-      let best = 0;
-      for(const r of h) if(typeof r.cps === "number") best = Math.max(best, r.cps);
-      bestEl.textContent = fmt(best);
-    }
-
-    function render(){
-      const h = getHistory();
-      list.innerHTML = "";
-
-      if(!h.length){
-        const div = document.createElement("div");
-        div.className = "item";
-        div.innerHTML = `<div class="meta"><b>No runs yet</b><span>Do a test to see results here.</span></div><div class="score">—</div>`;
-        list.appendChild(div);
-        return;
+      function setTheme(next){
+        document.documentElement.setAttribute("data-theme", next);
+        localStorage.setItem(THEME_KEY, next);
+        themeLabel.textContent = next === "light" ? "Light" : "Dark";
       }
 
-      for(const r of h.slice(0,12)){
-        const d = new Date(r.ts || Date.now());
-        const when = d.toLocaleString(undefined, {year:"numeric",month:"short",day:"2-digit",hour:"2-digit",minute:"2-digit"});
-        const div = document.createElement("div");
-        div.className = "item";
-        div.innerHTML =
-          `<div class="meta"><b>${r.duration}s • ${r.clicks} clicks</b><span>${when}</span></div>` +
-          `<div class="score">${fmt(r.cps)} CPS</div>`;
-        list.appendChild(div);
+      setTheme(getPreferredTheme());
+
+      themeBtn.addEventListener("click", () => {
+        const current = document.documentElement.getAttribute("data-theme");
+        setTheme(current === "light" ? "dark" : "light");
+      });
+
+      // ----------------------------
+      // Decorative images (safe endpoints + fallback)
+      // ----------------------------
+      // Allowed sources only: Unsplash Source or Picsum (seed).
+      const allowedDecor = [
+        "https://source.unsplash.com/featured/800x600?technology",
+        "https://source.unsplash.com/featured/800x600?gaming",
+        "https://source.unsplash.com/featured/800x600?abstract,dark",
+        "https://picsum.photos/seed/akbyte1/800/600",
+        "https://picsum.photos/seed/akbyte2/800/600"
+      ];
+
+      // Pick stable-ish per session
+      const pick = (seed) => allowedDecor[Math.abs(seed) % allowedDecor.length];
+
+      function attachDecor(wrapperId, imgId, seed){
+        const wrap = document.getElementById(wrapperId);
+        const img = document.getElementById(imgId);
+        const url = pick(seed);
+
+        // mark default fallback hidden until failure; it becomes visible on .failed
+        img.src = url;
+
+        img.addEventListener("error", () => {
+          wrap.classList.add("failed");
+        }, { once: true });
+
+        img.addEventListener("load", () => {
+          // If it loads, make sure failed isn't set
+          wrap.classList.remove("failed");
+        }, { once: true });
       }
-    }
 
-    function reset(){
-      cancelAnimationFrame(raf);
-      clearTimeout(endTimer);
-      clicks = 0; running = false; done = false; startAt = 0;
+      attachDecor("decorSidebar", "sidebarImg", 17);
+      attachDecor("decorHero", "heroImg", 33);
 
-      clicksEl.textContent = "0";
-      timeEl.textContent = "0.00";
-      cpsEl.textContent = "0.00";
+      // ----------------------------
+      // CPS Test Logic
+      // ----------------------------
+      const TIME_OPTIONS = [1,2,5,10,15,30,60,100];
 
-      setUI("ready");
-    }
+      const statTimer = document.getElementById("statTimer");
+      const statCps = document.getElementById("statCps");
+      const statClicks = document.getElementById("statClicks");
+      const statDuration = document.getElementById("statDuration");
+      const statMode = document.getElementById("statMode");
+      const statBest = document.getElementById("statBest");
 
-    function tick(){
-      if(!running) return;
+      const clickZone = document.getElementById("clickZone");
+      const zoneStatus = document.getElementById("zoneStatus");
+      const resetBtn = document.getElementById("resetBtn");
 
-      const elapsed = (now() - startAt) / 1000;
-      const dur = Number(durSel.value) || 5;
-      const t = Math.min(elapsed, dur);
+      const timeGrid = document.getElementById("timeGrid");
+      const selectedTimeBadge = document.getElementById("selectedTimeBadge");
+      const statusBadge = document.getElementById("statusBadge");
 
-      timeEl.textContent = fmt(t);
-      cpsEl.textContent = fmt(clicks / Math.max(0.05, t));
+      const manualBtn = document.getElementById("manualBtn");
+      const stopBtn = document.getElementById("stopBtn");
+      const manualBadge = document.getElementById("manualBadge");
 
-      raf = requestAnimationFrame(tick);
-    }
+      // Sound toggle
+      const muteSwitch = document.getElementById("muteSwitch");
+      const soundBadge = document.getElementById("soundBadge");
+      const MUTE_KEY = "akbyte_cps_muted_v1";
 
-    function saveRun(finalTime){
-      const dur = Number(durSel.value) || 5;
-      const cps = clicks / Math.max(0.001, finalTime);
+      // Result modal
+      const modal = document.getElementById("resultModal");
+      const closeModal = document.getElementById("closeModal");
+      const tryAgainBtn = document.getElementById("tryAgainBtn");
+      const copyBtn = document.getElementById("copyBtn");
 
-      const h = getHistory();
-      h.unshift({ ts: Date.now(), duration: dur, clicks, cps });
-      saveHistory(h.slice(0,12));
-      render();
-      updateBest();
-    }
+      const rankNameEl = document.getElementById("rankName");
+      const rankStarsEl = document.getElementById("rankStars");
+      const rankTagEl = document.getElementById("rankTag");
+      const motivationLine = document.getElementById("motivationLine");
+      const resCpsEl = document.getElementById("resCps");
+      const resClicksEl = document.getElementById("resClicks");
+      const resTimeEl = document.getElementById("resTime");
+      const resModeEl = document.getElementById("resMode");
+      const resultSub = document.getElementById("resultSub");
 
-    function finish(){
-      if(!running) return;
+      const BEST_KEY = "akbyte_cps_best_v1";
 
-      running = false; done = true;
-      cancelAnimationFrame(raf);
-      clearTimeout(endTimer);
+      let selectedDuration = 5;
+      let clicks = 0;
 
-      const dur = Number(durSel.value) || 5;
-      timeEl.textContent = fmt(dur);
-      cpsEl.textContent = fmt(clicks / Math.max(0.001, dur));
+      let running = false;
+      let mode = "Auto"; // Auto or Manual
+      let startTs = 0;   // performance.now()
+      let rafId = 0;
 
-      setUI("done");
-      saveRun(dur);
-      toastMsg("Saved");
-    }
+      // Audio (WebAudio click)
+      let audioCtx = null;
+      function ensureAudio(){
+        if (!audioCtx) {
+          const Ctx = window.AudioContext || window.webkitAudioContext;
+          if (Ctx) audioCtx = new Ctx();
+        }
+      }
+      function playClick(){
+        if (isMuted()) return;
+        ensureAudio();
+        if (!audioCtx) return;
 
-    function start(){
-      if(running) return;
-      if(done) reset();
+        // Some browsers require resume after user gesture
+        if (audioCtx.state === "suspended") audioCtx.resume().catch(() => {});
 
-      clicks = 0;
-      clicksEl.textContent = "0";
-      timeEl.textContent = "0.00";
-      cpsEl.textContent = "0.00";
+        const now = audioCtx.currentTime;
+        const o = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
 
-      running = true; done = false;
-      startAt = now();
+        o.type = "square";
+        o.frequency.value = 900;
 
-      setUI("live");
-      tick();
+        // tiny tick
+        g.gain.setValueAtTime(0.0001, now);
+        g.gain.exponentialRampToValueAtTime(0.12, now + 0.005);
+        g.gain.exponentialRampToValueAtTime(0.0001, now + 0.03);
 
-      const dur = Number(durSel.value) || 5;
-      endTimer = setTimeout(finish, dur * 1000);
-    }
+        o.connect(g);
+        g.connect(audioCtx.destination);
 
-    function stopEarly(){
-      if(!running) return;
+        o.start(now);
+        o.stop(now + 0.035);
+      }
 
-      const elapsed = (now() - startAt) / 1000;
+      function fmtFixed(num, digits){
+        return Number(num).toFixed(digits);
+      }
 
-      running = false; done = true;
-      cancelAnimationFrame(raf);
-      clearTimeout(endTimer);
+      function clamp(num, min, max){
+        return Math.max(min, Math.min(max, num));
+      }
 
-      timeEl.textContent = fmt(elapsed);
-      cpsEl.textContent = fmt(clicks / Math.max(0.001, elapsed));
+      // Best per duration
+      function readBest(){
+        try {
+          const raw = localStorage.getItem(BEST_KEY);
+          return raw ? JSON.parse(raw) : {};
+        } catch {
+          return {};
+        }
+      }
+      function writeBest(map){
+        try { localStorage.setItem(BEST_KEY, JSON.stringify(map)); } catch {}
+      }
+      function getBestFor(duration){
+        const m = readBest();
+        const v = Number(m[String(duration)] || 0);
+        return Number.isFinite(v) ? v : 0;
+      }
+      function setBestFor(duration, cps){
+        const m = readBest();
+        const key = String(duration);
+        const prev = Number(m[key] || 0);
+        if (!Number.isFinite(prev) || cps > prev){
+          m[key] = cps;
+          writeBest(m);
+        }
+      }
 
-      setUI("done");
-      saveRun(Math.max(0.001, elapsed));
-      toastMsg("Stopped");
-    }
+      function updateBestUI(){
+        const best = getBestFor(selectedDuration);
+        statBest.textContent = "Best: " + fmtFixed(best, 2);
+      }
 
-    function click(){
-      if(!running && !done) start();
-      if(!running) return;
+      // Build duration buttons
+      function renderTimeButtons(){
+        timeGrid.innerHTML = "";
+        TIME_OPTIONS.forEach(t => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "chip" + (t === selectedDuration ? " active" : "");
+          btn.textContent = t + "s";
+          btn.setAttribute("aria-pressed", t === selectedDuration ? "true" : "false");
 
-      clicks++;
-      clicksEl.textContent = String(clicks);
-    }
+          btn.addEventListener("click", () => {
+            if (t === selectedDuration) return;
+            selectedDuration = t;
+            resetRun(true);
+            renderTimeButtons();
+            selectedTimeBadge.textContent = t + "s";
+            statDuration.textContent = t + "s";
+            statTimer.textContent = fmtFixed(selectedDuration, 3);
+            updateBestUI();
+          });
 
-    area.addEventListener("mousedown", (e) => { if(e.button === 0) click(); });
-    area.addEventListener("dragstart", (e) => e.preventDefault());
+          timeGrid.appendChild(btn);
+        });
+      }
 
-    area.addEventListener("keydown", (e) => {
-      if(e.code === "Space"){ e.preventDefault(); running ? stopEarly() : start(); }
-      if(e.key.toLowerCase() === "r"){ e.preventDefault(); reset(); toastMsg("Reset"); }
-    });
+      // ----------------------------
+      // Mute state (persisted)
+      // ----------------------------
+      function isMuted(){
+        const raw = localStorage.getItem(MUTE_KEY);
+        // default muted ON
+        if (raw === null) return true;
+        return raw === "true";
+      }
+      function setMuted(v){
+        localStorage.setItem(MUTE_KEY, String(!!v));
+        muteSwitch.classList.toggle("on", !v ? false : true); // on = muted
+        muteSwitch.setAttribute("aria-checked", String(!!v));
+        soundBadge.textContent = v ? "Muted" : "On";
+      }
 
-    startBtn.addEventListener("click", () => { area.focus(); start(); });
-    stopBtn.addEventListener("click", () => { area.focus(); stopEarly(); });
-    resetBtn.addEventListener("click", () => { area.focus(); reset(); toastMsg("Reset"); });
+      // Switch visuals: on means muted
+      setMuted(isMuted());
+      muteSwitch.addEventListener("click", () => setMuted(!isMuted()));
+      muteSwitch.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          setMuted(!isMuted());
+        }
+      });
 
-    clearBtn.addEventListener("click", () => {
-      localStorage.removeItem(KEY);
-      render();
-      updateBest();
-      toastMsg("Cleared");
-    });
+      // ----------------------------
+      // Run state helpers
+      // ----------------------------
+      function setStatus(text){
+        statusBadge.textContent = text;
+      }
 
-    reset();
-    render();
-    updateBest();
-    area.focus();
+      function setZoneText(text){
+        zoneStatus.textContent = text;
+      }
+
+      function setMode(nextMode){
+        mode = nextMode;
+        statMode.textContent = nextMode;
+        resModeEl.textContent = nextMode;
+        manualBadge.textContent = nextMode === "Manual" ? "On" : "Off";
+        if (nextMode === "Manual"){
+          manualBtn.querySelector("span")?.remove?.();
+        }
+      }
+
+      function resetStatsUI(){
+        statClicks.textContent = "0";
+        statCps.textContent = "0.00";
+        statTimer.textContent = fmtFixed(selectedDuration, 3);
+      }
+
+      function resetRun(silent){
+        running = false;
+        clicks = 0;
+        startTs = 0;
+        if (rafId) cancelAnimationFrame(rafId);
+        rafId = 0;
+
+        stopBtn.disabled = true;
+        manualBtn.disabled = false;
+        manualBtn.textContent = "Start";
+        setMode("Auto");
+        manualBadge.textContent = "Off";
+
+        selectedTimeBadge.textContent = selectedDuration + "s";
+        statDuration.textContent = selectedDuration + "s";
+
+        resetStatsUI();
+        setZoneText("Click to start");
+        setStatus("Ready");
+
+        if (!silent){
+          closeResultModal();
+        }
+      }
+
+      function resetRunAndRepaint(){
+        renderTimeButtons();
+        updateBestUI();
+        resetRun(true);
+      }
+
+      // ----------------------------
+      // Timing loop
+      // ----------------------------
+      function getElapsed(now){
+        return clamp((now - startTs) / 1000, 0, 9999);
+      }
+
+      function calcCps(elapsed){
+        if (elapsed <= 0) return 0;
+        return clicks / elapsed;
+      }
+
+      function tick(){
+        if (!running) return;
+
+        const now = performance.now();
+        const elapsed = getElapsed(now);
+        const remaining = Math.max(0, selectedDuration - elapsed);
+
+        // Live stats
+        statTimer.textContent = fmtFixed(remaining, 3);
+        statClicks.textContent = String(clicks);
+        statCps.textContent = fmtFixed(calcCps(elapsed), 2);
+
+        if (remaining <= 0){
+          finishRun(selectedDuration); // full duration
+          return;
+        }
+
+        rafId = requestAnimationFrame(tick);
+      }
+
+      // ----------------------------
+      // Starting / stopping
+      // ----------------------------
+      function startRun(startNow){
+        running = true;
+        startTs = startNow || performance.now();
+        setStatus("Running");
+        clickZone.focus({ preventScroll:true });
+        rafId = requestAnimationFrame(tick);
+      }
+
+      function autoStartIfNeeded(){
+        if (running) return;
+        // Auto mode: start on first click
+        setMode("Auto");
+        startRun(performance.now());
+        setZoneText("Keep clicking…");
+      }
+
+      function manualStart(){
+        if (running) return;
+        setMode("Manual");
+        startRun(performance.now());
+        setZoneText("Manual mode running…");
+        manualBtn.textContent = "Running";
+        manualBtn.disabled = true;
+        stopBtn.disabled = false;
+        manualBadge.textContent = "On";
+      }
+
+      function manualStop(){
+        if (!running) return;
+        const now = performance.now();
+        const elapsed = getElapsed(now);
+        finishRun(elapsed);
+      }
+
+      function finishRun(timeUsedSeconds){
+        running = false;
+        if (rafId) cancelAnimationFrame(rafId);
+        rafId = 0;
+
+        const timeUsed = clamp(timeUsedSeconds, 0.001, selectedDuration);
+        const cps = clicks / timeUsed;
+
+        // Set best per duration (based on actual duration selected)
+        setBestFor(selectedDuration, cps);
+        updateBestUI();
+
+        // Freeze UI to final values
+        statTimer.textContent = fmtFixed(Math.max(0, selectedDuration - timeUsed), 3);
+        statClicks.textContent = String(clicks);
+        statCps.textContent = fmtFixed(cps, 2);
+
+        setStatus("Done");
+        setZoneText("Done. See result.");
+
+        stopBtn.disabled = true;
+        manualBtn.disabled = false;
+        manualBtn.textContent = "Start";
+
+        showResult({
+          duration: selectedDuration,
+          mode,
+          clicks,
+          timeUsed,
+          cps
+        });
+      }
+
+      // ----------------------------
+      // Ranking
+      // ----------------------------
+      function rankFor(cps){
+        if (cps < 3) return { name: "Sloth", stars: 1, tag: "<3 CPS" };
+        if (cps < 5) return { name: "Turtle", stars: 2, tag: "3–5 CPS" };
+        if (cps < 7) return { name: "Human", stars: 3, tag: "5–7 CPS" };
+        if (cps < 9) return { name: "Cheetah", stars: 4, tag: "7–9 CPS" };
+        return { name: "Machine", stars: 5, tag: "9+ CPS" };
+      }
+
+      function starsString(n){
+        const full = "★".repeat(n);
+        const empty = "☆".repeat(5 - n);
+        return full + empty;
+      }
+
+      function motivationFor(rankName){
+        switch(rankName){
+          case "Sloth": return "Warm-up run. Try a steady pace and focus on consistency.";
+          case "Turtle": return "Solid base. Keep a smooth rhythm and avoid over-tensing.";
+          case "Human": return "Nice control. Small gains come from cleaner timing, not force.";
+          case "Cheetah": return "Fast and sharp. Aim for consistency across the whole timer.";
+          case "Machine": return "Very strong. If you can repeat it, that’s real skill.";
+          default: return "Nice run. Try beating your own best.";
+        }
+      }
+
+      // ----------------------------
+      // Modal
+      // ----------------------------
+      function openResultModal(){
+        modal.classList.add("show");
+        // focus the primary action
+        tryAgainBtn.focus({ preventScroll:true });
+      }
+
+      function closeResultModal(){
+        modal.classList.remove("show");
+      }
+
+      function showResult({ duration, mode, clicks, timeUsed, cps }){
+        const r = rankFor(cps);
+
+        rankNameEl.textContent = r.name;
+        rankStarsEl.textContent = starsString(r.stars);
+        rankTagEl.textContent = r.tag;
+
+        resCpsEl.textContent = fmtFixed(cps, 2);
+        resClicksEl.textContent = String(clicks);
+        resTimeEl.textContent = fmtFixed(timeUsed, 3) + "s";
+        resModeEl.textContent = mode;
+
+        motivationLine.textContent = motivationFor(r.name);
+
+        const best = getBestFor(duration);
+        const bestText = "Best for " + duration + "s: " + fmtFixed(best, 2) + " CPS";
+        resultSub.textContent = bestText;
+
+        openResultModal();
+      }
+
+      closeModal.addEventListener("click", closeResultModal);
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) closeResultModal();
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && modal.classList.contains("show")){
+          closeResultModal();
+        }
+      });
+
+      tryAgainBtn.addEventListener("click", () => {
+        closeResultModal();
+        resetRun(true);
+      });
+
+      async function copyText(text){
+        try{
+          if (navigator.clipboard && navigator.clipboard.writeText){
+            await navigator.clipboard.writeText(text);
+            return true;
+          }
+        } catch {}
+        // fallback
+        try{
+          const ta = document.createElement("textarea");
+          ta.value = text;
+          ta.setAttribute("readonly", "");
+          ta.style.position = "fixed";
+          ta.style.left = "-9999px";
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand("copy");
+          document.body.removeChild(ta);
+          return true;
+        } catch {
+          return false;
+        }
+      }
+
+      copyBtn.addEventListener("click", async () => {
+        const cps = Number(resCpsEl.textContent || "0");
+        const c = Number(resClicksEl.textContent || "0");
+        const t = resTimeEl.textContent || "0.000s";
+        const d = selectedDuration + "s";
+        const r = rankNameEl.textContent;
+        const s = rankStarsEl.textContent;
+
+        const summary =
+          `CPSTEST.ORG Result\n` +
+          `Rank: ${r} ${s}\n` +
+          `CPS: ${fmtFixed(cps,2)}\n` +
+          `Clicks: ${c}\n` +
+          `Time: ${t} (selected: ${d})\n` +
+          `Mode: ${mode}\n` +
+          `Made by Akash Rawat (Akbyte)`;
+
+        const ok = await copyText(summary);
+        copyBtn.textContent = ok ? "Copied" : "Copy failed";
+        setTimeout(() => { copyBtn.textContent = "Copy Result"; }, 900);
+      });
+
+      // ----------------------------
+      // Click zone interactions
+      // ----------------------------
+      function tapFeedback(){
+        clickZone.classList.add("tapped");
+        window.setTimeout(() => clickZone.classList.remove("tapped"), 120);
+      }
+
+      function registerClick(){
+        if (!running){
+          // manual mode only starts via button; otherwise auto start on click
+          autoStartIfNeeded();
+        }
+
+        if (!running) return; // if something blocked it
+
+        clicks += 1;
+        tapFeedback();
+        playClick();
+      }
+
+      clickZone.addEventListener("click", (e) => {
+        e.preventDefault();
+        registerClick();
+      });
+
+      // Prevent text selection / weird drags
+      clickZone.addEventListener("mousedown", (e) => e.preventDefault());
+      clickZone.addEventListener("dragstart", (e) => e.preventDefault());
+
+      clickZone.addEventListener("keydown", (e) => {
+        if (e.key === " " || e.key === "Enter"){
+          e.preventDefault();
+          registerClick();
+        }
+      });
+
+      // Manual controls
+      manualBtn.addEventListener("click", () => {
+        resetRun(true);
+        manualStart();
+      });
+      stopBtn.addEventListener("click", manualStop);
+
+      // Reset
+      resetBtn.addEventListener("click", () => resetRun(true));
+
+      // Navigation: UI-only pages get a light notice via status badge (no popups)
+      document.querySelectorAll(".nav a").forEach(a => {
+        a.addEventListener("click", (e) => {
+          const page = a.getAttribute("data-page");
+          document.querySelectorAll(".nav a").forEach(x => x.classList.remove("active"));
+          a.classList.add("active");
+
+          if (page !== "home"){
+            e.preventDefault();
+            setStatus("UI only");
+            setZoneText("Home is active for CPS test.");
+            window.setTimeout(() => setStatus(running ? "Running" : "Ready"), 900);
+          } else {
+            setStatus(running ? "Running" : "Ready");
+            setZoneText(running ? "Keep clicking…" : "Click to start");
+          }
+        });
+      });
+
+      // Initial render
+      renderTimeButtons();
+      selectedTimeBadge.textContent = selectedDuration + "s";
+      statDuration.textContent = selectedDuration + "s";
+      statTimer.textContent = fmtFixed(selectedDuration, 3);
+      updateBestUI();
+
+      // Ensure correct mute switch visuals: on == muted
+      muteSwitch.classList.toggle("on", isMuted());
+      muteSwitch.setAttribute("aria-checked", String(isMuted()));
+      soundBadge.textContent = isMuted() ? "Muted" : "On";
+
+      // Extra: reset if page becomes hidden while running (avoids weird timers after tab switch)
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden && running){
+          resetRun(true);
+        }
+      });
+
+      // First paint status
+      setStatus("Ready");
+    })();
   </script>
 </body>
 </html>
